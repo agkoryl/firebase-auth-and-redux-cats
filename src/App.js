@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import Form from './register';
-
+import Login from './Login';
+import LogOut from './LogOut';
+import LogInInfo from './LogInInfo';
+import RestrictedRoutes from './RestrictedRoutes';
 import CatGrid from './CatGrid';
+import Menu from './Menu';
+import './App.css';
 
 class App extends Component {
 
   state = {
     isAuthorised: false
-  }
-
-  componentDidMount() {
-
   }
 
   setIsAuthorised = (value) => {
@@ -20,13 +22,23 @@ class App extends Component {
 
   render() {
 
-    const catGrid = this.state.isAuthorised ? <CatGrid /> : null;
-
     return (
-      <div>
-        <Form setIsAuthorised={this.setIsAuthorised}></Form>
-        {catGrid}
-      </div>
+      <BrowserRouter>
+        <div className="main-container">
+       
+          <Menu isAuthorised={this.state.isAuthorised}/>
+            
+
+          <div>
+            <Route exact path='/' component={this.state.isAuthorised ? CatGrid : LogInInfo}></Route>
+            <Route path='/register' render={(props) => <Form {...props} setIsAuthorised={this.setIsAuthorised} />} />
+            <Route path='/login' render={(props) => <Login {...props} setIsAuthorised={this.setIsAuthorised} />} />
+            <Route path='/logout' render={(props) => <LogOut {...props} setIsAuthorised={this.setIsAuthorised} />} />
+
+          </div>
+        </div>
+
+      </BrowserRouter>
 
     );
   }

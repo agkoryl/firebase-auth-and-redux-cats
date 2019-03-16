@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { db } from './firebase';
 //losuje jakies randomowe dane
 import faker from 'faker';
+import './CatGrid.css';
 
 class CatGrid extends Component {
 
@@ -48,15 +49,21 @@ class CatGrid extends Component {
     render() {
         const { cats } = this.state;
         return (
-            <div>
-                <ul>
+            <div className="table-container">
+                <table className="greyGridTable">
+                    <tbody>
                     {cats.map(cat => (
-                        <li key={cat.id} style={{ fontSize: 25 }}>{cat.name}<img src={cat.url} style={{ width: "300px", height: "300px" }}></img></li>
+                        <tr key={cat.id}>
+                            <td style={{fontSize: 20}}>{cat.name}</td>
+                            <td><img src={cat.url} style={{ width: "200px", height: "150px", overflow: "hidden" }}></img></td>
+                        </tr>
                     ))}
-                </ul>
+                    </tbody>
+                </table>
             </div>
         );
     }
 }
 
 export default CatGrid;
+
