@@ -19,7 +19,7 @@ class Login extends React.Component {
         this.setState({ email: "", password: "" })
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(response => {
-            this.props.setIsAuthorised(true);
+            // this.props.setIsAuthorised(true);
             this.props.history.push('/');
         }).catch(error => {
             console.error(`Error: ${error.code} ${error.message}`);

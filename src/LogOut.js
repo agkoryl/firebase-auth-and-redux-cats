@@ -7,7 +7,7 @@ class LogOut extends React.Component {
 
     componentDidMount() {
         auth.signOut().then(response => {
-            this.props.setIsAuthorised(false);
+            // this.props.setIsAuthorised(false);
             this.props.history.push('/');
         })
             .catch(error => {

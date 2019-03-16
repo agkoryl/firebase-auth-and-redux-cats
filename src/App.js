@@ -9,16 +9,29 @@ import RestrictedRoutes from './RestrictedRoutes';
 import CatGrid from './CatGrid';
 import Menu from './Menu';
 import './App.css';
+import {auth} from './firebase';
 
 class App extends Component {
 
   state = {
-    isAuthorised: false
+    isAuthorized: false
   }
 
-  setIsAuthorised = (value) => {
-    this.setState({ isAuthorised: value });
-  }
+  // setIsAuthorised = (value) => {
+  //   this.setState({ isAuthorised: value });
+  // }
+
+
+componentDidMount() {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      this.setState({ isAuthorized: true });
+    } else {
+      this.setState({ isAuthorized: false });
+    }
+  })
+}
+
 
   render() {
 
@@ -26,14 +39,16 @@ class App extends Component {
       <BrowserRouter>
         <div className="main-container">
        
-          <Menu isAuthorised={this.state.isAuthorised}/>
-            
-
+          <Menu isAuthorised={this.state.isAuthorized}/>
+          
           <div>
-            <Route exact path='/' component={this.state.isAuthorised ? CatGrid : LogInInfo}></Route>
-            <Route path='/register' render={(props) => <Form {...props} setIsAuthorised={this.setIsAuthorised} />} />
-            <Route path='/login' render={(props) => <Login {...props} setIsAuthorised={this.setIsAuthorised} />} />
-            <Route path='/logout' render={(props) => <LogOut {...props} setIsAuthorised={this.setIsAuthorised} />} />
+           
+            <Route exact path='/' component={this.state.isAuthorized ? CatGrid : LogInInfo}></Route>
+            <Route path='/register' component={Form} />
+            <Route path='/login' component={Login} />
+            <Route path='/logout' component={LogOut} /> 
+
+           
 
           </div>
         </div>
@@ -41,7 +56,11 @@ class App extends Component {
       </BrowserRouter>
 
     );
-  }
-}
+  }}
 
 export default App;
+
+//<Route exact path='/' component={this.state.isAuthorised ? CatGrid : LogInInfo}></Route>
+//<Route path='/register' render={(props) => <Form {...props} setIsAuthorised={this.setIsAuthorised} />} />
+//<Route path='/login' render={(props) => <Login {...props} setIsAuthorised={this.setIsAuthorised} />} />
+//<Route path='/logout' render={(props) => <LogOut {...props} setIsAuthorised={this.setIsAuthorised} />} />  

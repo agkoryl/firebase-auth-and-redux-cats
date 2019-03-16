@@ -19,7 +19,8 @@ class Form extends React.Component {
         event.preventDefault();
         this.setState({ email: "", password: "" })
         auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(response => {
-            this.props.setIsAuthorised(true);
+            // this.props.setIsAuthorised(true);
+            this.props.history.push('/');
         }).catch(error => {
             console.error(`Error: ${error.code} ${error.message}`);
         })
