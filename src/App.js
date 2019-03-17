@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
+
 import Form from './register';
 import Login from './Login';
 import LogOut from './LogOut';
@@ -9,12 +10,18 @@ import RestrictedRoutes from './RestrictedRoutes';
 import CatGrid from './CatGrid';
 import Menu from './Menu';
 import './App.css';
-import {auth} from './firebase';
+import { auth } from './firebase';
+import Upload from './Upload';
+
+
 
 class App extends Component {
 
   state = {
-    isAuthorized: false
+    isAuthorized: false,
+    user: {
+
+    }
   }
 
   // setIsAuthorised = (value) => {
@@ -22,15 +29,20 @@ class App extends Component {
   // }
 
 
-componentDidMount() {
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      this.setState({ isAuthorized: true });
-    } else {
-      this.setState({ isAuthorized: false });
-    }
-  })
-}
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      console.log(auth.currentUser);
+      if (user) {
+        this.setState({
+          isAuthorized: true,
+          user: user.providerData[0]
+        });
+    
+      } else {
+        this.setState({ isAuthorized: false });
+      }
+    })
+  }
 
 
   render() {
@@ -38,17 +50,18 @@ componentDidMount() {
     return (
       <BrowserRouter>
         <div className="main-container">
-       
-          <Menu isAuthorised={this.state.isAuthorized}/>
-          
+
+          <Menu isAuthorised={this.state.isAuthorized} user={this.state.user}> </Menu>
+         
+
           <div>
-           
+
             <Route exact path='/' component={this.state.isAuthorized ? CatGrid : LogInInfo}></Route>
             <Route path='/register' component={Form} />
             <Route path='/login' component={Login} />
-            <Route path='/logout' component={LogOut} /> 
+            <Route path='/logout' component={LogOut} />
+            <Route path='/upload' component={Upload}/>
 
-           
 
           </div>
         </div>
@@ -56,7 +69,8 @@ componentDidMount() {
       </BrowserRouter>
 
     );
-  }}
+  }
+}
 
 export default App;
 

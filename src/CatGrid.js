@@ -18,19 +18,19 @@ class CatGrid extends Component {
         const headers = {
             'x-api-key': 'd24b427d-578e-4609-86bd-b36555c3875c'
         }
-        fetch('https://api.thecatapi.com/v1/images/search?limit=10', { headers })
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(element => {
+        // fetch('https://api.thecatapi.com/v1/images/search?limit=10', { headers })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         data.forEach(element => {
 
-                    db.ref('/cats/').push({
-                        name: faker.name.firstName(), id: element.id,
-                        url: element.url
-                    });
-                });
+        //             db.ref('/cats/').push({
+        //                 name: faker.name.firstName(), id: element.id,
+        //                 url: element.url
+        //             });
+        //         });
 
 
-            });
+        //     });
 
         //pobieramy dane z firebase
         db.ref('/cats/').on('value', (snapshot) => {

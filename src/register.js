@@ -7,7 +7,8 @@ class Form extends React.Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        displayName: ''
     }
 
     handleChange = (event) => {
@@ -35,6 +36,9 @@ class Form extends React.Component {
                     <h2>SIGN UP</h2>
                 </div>
                 <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <input value={this.state.displayName} type="text" name="displayName" onChange={this.handleChange} placeholder="enter your display name" style={{ margin: 5, fontSize: 20 }}></input>
+                    </div>
                     <div>
                         <input value={this.state.email} type="email" name="email" onChange={this.handleChange} placeholder="enter your email" style={{ margin: 5, fontSize: 20 }} ></input>
                     </div>
