@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Avatar from 'react-avatar';
 
 
 import Form from './auth/containers/register';
 import Login from './auth/containers/Login';
 import LogOut from './auth/containers/LogOut';
 import LogInInfo from './LogInInfo';
-import CatGrid from './CatGrid';
+import CatGrid from './cats/containers/CatGrid';
 import Menu from './ui/components/Menu';
 import './App.css';
 import { auth } from './firebase';
 import Upload from './Upload';
 import Notifications from './ui/containers/Notifications';
+import MyAvatar from './Avatar';
 
 import { login, logout } from './auth/actions';
 import { showNotifications } from './ui/actions';
@@ -43,7 +43,7 @@ class App extends Component {
         <div className="main-container">
           <Notifications />
           <Menu isAuthorised={this.props.auth} user={this.props.user}> </Menu>
-          {this.props.isAuthorised ? <Avatar user={this.props.user}></Avatar> : null}
+          {this.props.isAuthorised ? <MyAvatar user={this.props.user}></MyAvatar> : null}
 
           <div>
 
