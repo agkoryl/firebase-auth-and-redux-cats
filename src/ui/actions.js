@@ -1,5 +1,5 @@
-import SHOW_NOTIFICATIONS from './constants';
-import HIDE_NOTIFICATIONS from './constants';
+import {SHOW_NOTIFICATIONS} from './constants';
+import {HIDE_NOTIFICATIONS} from './constants';
 
 
 export const showNotifications = (message) => (

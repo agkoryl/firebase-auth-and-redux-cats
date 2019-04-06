@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-
+import { Provider } from 'react-redux';
 
 import Form from './register';
 import Login from './Login';
@@ -12,8 +12,8 @@ import Menu from './Menu';
 import './App.css';
 import { auth } from './firebase';
 import Upload from './Upload';
-import Notifications from './Notifications';
-
+import Notifications from './ui/containers/Notifications';
+import store from './store';
 
 
 class App extends Component {
@@ -49,25 +49,28 @@ class App extends Component {
   render() {
 
     return (
-      <BrowserRouter>
-        <div className="main-container">
-          <Notifications />
-          <Menu isAuthorised={this.state.isAuthorized} user={this.state.user}> </Menu>
+      <Provider store={store}>
+        <BrowserRouter>
+          <div className="main-container">
+            <Notifications />
+            <Menu isAuthorised={this.state.isAuthorized} user={this.state.user}> </Menu>
 
 
-          <div>
+            <div>
 
-            <Route exact path='/' component={this.state.isAuthorized ? CatGrid : LogInInfo}></Route>
-            <Route path='/register' component={Form} />
-            <Route path='/login' component={Login} />
-            <Route path='/logout' component={LogOut} />
-            <Route path='/upload' component={Upload} />
+              <Route exact path='/' component={this.state.isAuthorized ? CatGrid : LogInInfo}></Route>
+              <Route path='/register' component={Form} />
+              <Route path='/login' component={Login} />
+              <Route path='/logout' component={LogOut} />
+              <Route path='/upload' component={Upload} />
 
-            <div>ble</div>
+              <div>ble</div>
+            </div>
           </div>
-        </div>
 
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
+
 
     );
   }
