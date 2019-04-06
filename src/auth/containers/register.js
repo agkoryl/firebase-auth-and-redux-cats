@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './register.css';
-import { auth } from './firebase';
+import { auth } from '../../firebase';
 
 class Form extends React.Component {
 

@@ -20,7 +20,7 @@ class Notifications extends Component {
         open={this.props.open}
         onClose={this.handleClose}
         message={this.props.message}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
       />
     );
   }

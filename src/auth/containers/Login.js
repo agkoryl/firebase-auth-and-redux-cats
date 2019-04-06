@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { auth, googleProvider } from './firebase';
+import { auth, googleProvider } from '../../firebase';
 
 import './Login.css';
 

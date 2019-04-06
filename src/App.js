@@ -1,46 +1,36 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import Avatar from 'react-avatar';
 
-import Form from './register';
-import Login from './Login';
-import LogOut from './LogOut';
+
+import Form from './auth/containers/register';
+import Login from './auth/containers/Login';
+import LogOut from './auth/containers/LogOut';
 import LogInInfo from './LogInInfo';
-import RestrictedRoutes from './RestrictedRoutes';
 import CatGrid from './CatGrid';
-import Menu from './Menu';
+import Menu from './ui/components/Menu';
 import './App.css';
 import { auth } from './firebase';
 import Upload from './Upload';
 import Notifications from './ui/containers/Notifications';
-import store from './store';
+
+import { login, logout } from './auth/actions';
+import { showNotifications } from './ui/actions';
+
 
 
 class App extends Component {
 
-  state = {
-    isAuthorized: false,
-    user: {
-
-    }
-  }
-
-  // setIsAuthorised = (value) => {
-  //   this.setState({ isAuthorised: value });
-  // }
-
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
-      console.log(auth.currentUser);
       if (user) {
-        this.setState({
-          isAuthorized: true,
-          user: user.providerData[0]
-        });
+        this.props.login(user.providerData[0]);
+        this.props.showNotifications("You've logged successfully")
 
       } else {
-        this.setState({ isAuthorized: false });
+        this.props.logout();
       }
     })
   }
@@ -49,36 +39,39 @@ class App extends Component {
   render() {
 
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div className="main-container">
-            <Notifications />
-            <Menu isAuthorised={this.state.isAuthorized} user={this.state.user}> </Menu>
+      <BrowserRouter>
+        <div className="main-container">
+          <Notifications />
+          <Menu isAuthorised={this.props.auth} user={this.props.user}> </Menu>
+          {this.props.isAuthorised ? <Avatar user={this.props.user}></Avatar> : null}
 
+          <div>
 
-            <div>
+            <Route exact path='/' component={this.props.auth ? CatGrid : LogInInfo}></Route>
+            <Route path='/register' component={Form} />
+            <Route path='/login' component={Login} />
+            <Route path='/logout' component={LogOut} />
+            <Route path='/upload' component={Upload} />
 
-              <Route exact path='/' component={this.state.isAuthorized ? CatGrid : LogInInfo}></Route>
-              <Route path='/register' component={Form} />
-              <Route path='/login' component={Login} />
-              <Route path='/logout' component={LogOut} />
-              <Route path='/upload' component={Upload} />
-
-              <div>ble</div>
-            </div>
           </div>
+        </div>
 
-        </BrowserRouter>
-      </Provider>
-
+      </BrowserRouter>
 
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthorized,
+  user: state.auth.user
+})
 
-//<Route exact path='/' component={this.state.isAuthorised ? CatGrid : LogInInfo}></Route>
-//<Route path='/register' render={(props) => <Form {...props} setIsAuthorised={this.setIsAuthorised} />} />
-//<Route path='/login' render={(props) => <Login {...props} setIsAuthorised={this.setIsAuthorised} />} />
-//<Route path='/logout' render={(props) => <LogOut {...props} setIsAuthorised={this.setIsAuthorised} />} />  
+const mapDispatchToProps = dispatch => ({
+  login: (user) => dispatch(login(user)),
+  logout: () => dispatch(logout()),
+  showNotifications: (message) => dispatch(showNotifications(message))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+

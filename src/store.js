@@ -1,11 +1,13 @@
 import {createStore, combineReducers} from 'redux';
 
-import uiReducer from './ui/reducer'
+import uiReducer from './ui/reducer';
+import authReducer from './auth/reducer';
 
 const rootReducer = combineReducers({
-    ui: uiReducer 
+    ui: uiReducer, 
+    auth: authReducer
 })
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;

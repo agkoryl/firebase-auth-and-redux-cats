@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import MyAvatar from './Avatar';
+import MyAvatar from '../../Avatar';
 
 const createStyles = (show) => ({
     display: show ? 'block' : 'none'
