@@ -12,6 +12,7 @@ import Menu from './Menu';
 import './App.css';
 import { auth } from './firebase';
 import Upload from './Upload';
+import Notifications from './Notifications';
 
 
 
@@ -37,7 +38,7 @@ class App extends Component {
           isAuthorized: true,
           user: user.providerData[0]
         });
-    
+
       } else {
         this.setState({ isAuthorized: false });
       }
@@ -50,9 +51,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="main-container">
-
+          <Notifications />
           <Menu isAuthorised={this.state.isAuthorized} user={this.state.user}> </Menu>
-         
+
 
           <div>
 
@@ -60,9 +61,9 @@ class App extends Component {
             <Route path='/register' component={Form} />
             <Route path='/login' component={Login} />
             <Route path='/logout' component={LogOut} />
-            <Route path='/upload' component={Upload}/>
+            <Route path='/upload' component={Upload} />
 
-
+            <div>ble</div>
           </div>
         </div>
 
